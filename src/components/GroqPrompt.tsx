@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
@@ -7,11 +7,22 @@ import { Card } from "@/components/ui/card";
 import { toast } from "sonner";
 import { GroqService } from "@/services/GroqService";
 
-export function GroqPrompt() {
+interface GroqPromptProps {
+  initialPrompt?: string;
+}
+
+export function GroqPrompt({ initialPrompt = '' }: GroqPromptProps) {
   const [prompt, setPrompt] = useState('');
   const [apiKey, setApiKey] = useState('');
   const [result, setResult] = useState('');
   const [loading, setLoading] = useState(false);
+  
+  // Set the initial prompt when provided
+  useEffect(() => {
+    if (initialPrompt) {
+      setPrompt(initialPrompt);
+    }
+  }, [initialPrompt]);
   
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
