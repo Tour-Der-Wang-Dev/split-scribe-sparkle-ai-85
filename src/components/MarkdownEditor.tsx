@@ -6,7 +6,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Card } from "@/components/ui/card";
 import Toolbar from './Toolbar';
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { FileService } from '@/services/FileService';
 import { Button } from "@/components/ui/button";
 import { Save, Upload, FolderOpen } from 'lucide-react'; 
