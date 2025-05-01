@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import GroqAPI from "./pages/GroqAPI";
 import PromptEngineering from "./pages/PromptEngineering";
+import AITools from "./pages/AITools";
 
 const queryClient = new QueryClient();
 
@@ -19,6 +20,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/groq-api" element={<GroqAPI />} />
           <Route path="/prompt-engineering" element={<PromptEngineering />} />
+          <Route path="/ai-tools" element={<AITools />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

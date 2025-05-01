@@ -4,7 +4,7 @@ import { GroqPrompt } from '@/components/GroqPrompt';
 import { SavedResponses } from '@/components/SavedResponses';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Sparkles, History } from 'lucide-react';
+import { Sparkles, History, ArrowLeft } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 // Get the API key from environment variables
@@ -13,17 +13,27 @@ const defaultApiKey = import.meta.env.VITE_GROQ_API_KEY || '';
 const GroqAPI = () => {
   return (
     <div className="container mx-auto py-8 px-4">
-      <header className="mb-8 text-center">
-        <h1 className="text-3xl font-bold mb-2">Groq API Integration</h1>
-        <p className="text-muted-foreground mb-4">
+      <header className="mb-8">
+        <div className="flex justify-between items-center mb-4">
+          <Button variant="outline" size="sm" asChild>
+            <Link to="/ai-tools">
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back to AI Tools
+            </Link>
+          </Button>
+        </div>
+        <h1 className="text-3xl font-bold mb-2 text-center">Groq API Integration</h1>
+        <p className="text-muted-foreground mb-4 text-center">
           Generate text using Groq's powerful language models
         </p>
-        <Button asChild className="mb-4">
-          <Link to="/prompt-engineering">
-            <Sparkles className="mr-2 h-4 w-4" />
-            Try Prompt Engineering
-          </Link>
-        </Button>
+        <div className="flex justify-center mb-4">
+          <Button asChild>
+            <Link to="/prompt-engineering">
+              <Sparkles className="mr-2 h-4 w-4" />
+              Try Prompt Engineering
+            </Link>
+          </Button>
+        </div>
       </header>
       
       <Tabs defaultValue="generate" className="max-w-2xl mx-auto">

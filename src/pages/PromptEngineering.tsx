@@ -34,9 +34,9 @@ const PromptEngineering = () => {
       <header className="mb-8">
         <div className="flex justify-between items-center mb-4">
           <Button variant="outline" size="sm" asChild>
-            <Link to="/groq-api">
+            <Link to="/ai-tools">
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Groq API
+              Back to AI Tools
             </Link>
           </Button>
         </div>
