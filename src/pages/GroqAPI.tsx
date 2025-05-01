@@ -25,6 +25,15 @@ const GroqAPI = () => {
       </header>
       
       <div className="max-w-2xl mx-auto">
+        <div className="mb-6 p-4 bg-muted rounded-lg">
+          <h2 className="text-xl font-semibold mb-2">Available Models</h2>
+          <ul className="list-disc pl-5 space-y-1">
+            <li><strong>Llama 3.1 70B:</strong> Most capable Llama model for versatile tasks</li>
+            <li><strong>Llama 3.1 8B:</strong> Fast and efficient for routine tasks</li>
+            <li><strong>Mixtral 8x7B:</strong> Strong performance across various domains</li>
+            <li><strong>Gemma 7B:</strong> Google's lightweight yet capable model</li>
+          </ul>
+        </div>
         <GroqPrompt defaultApiKey={defaultApiKey} />
       </div>
       

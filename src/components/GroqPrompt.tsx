@@ -6,17 +6,27 @@ import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { toast } from "sonner";
 import { GroqService } from "@/services/GroqService";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface GroqPromptProps {
   initialPrompt?: string;
   defaultApiKey?: string;
 }
 
+// Available Groq models
+const GROQ_MODELS = [
+  { id: 'llama-3.1-70b-versatile', name: 'Llama 3.1 70B' },
+  { id: 'llama-3.1-8b-versatile', name: 'Llama 3.1 8B' },
+  { id: 'mixtral-8x7b-32768', name: 'Mixtral 8x7B' },
+  { id: 'gemma-7b-it', name: 'Gemma 7B' }
+];
+
 export function GroqPrompt({ initialPrompt = '', defaultApiKey = '' }: GroqPromptProps) {
   const [prompt, setPrompt] = useState('');
   const [apiKey, setApiKey] = useState('');
   const [result, setResult] = useState('');
   const [loading, setLoading] = useState(false);
+  const [selectedModel, setSelectedModel] = useState(GROQ_MODELS[0].id);
   
   // Set the initial prompt and API key when provided
   useEffect(() => {
@@ -45,7 +55,7 @@ export function GroqPrompt({ initialPrompt = '', defaultApiKey = '' }: GroqPromp
     setResult('');
     
     try {
-      const response = await GroqService.generateContent(prompt, apiKey);
+      const response = await GroqService.generateContent(prompt, apiKey, selectedModel);
       setResult(response);
       toast.success("Response generated successfully!");
     } catch (error) {
@@ -73,6 +83,27 @@ export function GroqPrompt({ initialPrompt = '', defaultApiKey = '' }: GroqPromp
           />
           <p className="text-xs text-muted-foreground">
             Your API key is never stored or sent to our servers
+          </p>
+        </div>
+        
+        <div className="space-y-2">
+          <label htmlFor="model" className="block text-sm font-medium">
+            Model
+          </label>
+          <Select value={selectedModel} onValueChange={setSelectedModel}>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select a model" />
+            </SelectTrigger>
+            <SelectContent>
+              {GROQ_MODELS.map((model) => (
+                <SelectItem key={model.id} value={model.id}>
+                  {model.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <p className="text-xs text-muted-foreground">
+            Different models have different capabilities and pricing
           </p>
         </div>
         
