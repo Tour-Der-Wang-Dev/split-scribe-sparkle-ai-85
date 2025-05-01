@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ResizablePanelGroup, ResizablePanel } from "@/components/ui/resizable";
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -7,10 +7,14 @@ import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Card } from "@/components/ui/card";
 import Toolbar from './Toolbar';
 import { useToast } from "@/components/ui/use-toast";
+import { FileService } from '@/services/FileService';
+import { Button } from "@/components/ui/button";
+import { Save, Upload, FolderOpen } from 'lucide-react'; 
 
 const MarkdownEditor = () => {
   const [markdown, setMarkdown] = useState<string>('# Welcome to MarkdownEditor\n\nThis is a **live preview** markdown editor with _syntax highlighting_.\n\n## Features\n\n- Split pane view\n- Live preview\n- Syntax highlighting\n- Toolbar with formatting options\n\n```js\n// Example code block\nfunction greeting() {\n  return "Hello, world!";\n}\n```\n\n> This is a blockquote with a [link](https://lovable.dev)');
   const { toast } = useToast();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Handle inserting text at cursor position
   const insertAtCursor = (textarea: HTMLTextAreaElement, textToInsert: string) => {
@@ -99,10 +103,89 @@ const MarkdownEditor = () => {
       });
     });
   };
+
+  const handleSaveFile = () => {
+    try {
+      FileService.saveMarkdownToFile(markdown);
+      toast({
+        title: "File saved",
+        description: "Markdown content saved to document.md",
+        duration: 2000,
+      });
+    } catch (err) {
+      toast({
+        title: "Failed to save",
+        description: "An error occurred while saving the file",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleOpenFileClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    try {
+      const content = await FileService.loadMarkdownFromFile(files[0]);
+      setMarkdown(content);
+      toast({
+        title: "File loaded",
+        description: `${files[0].name} loaded successfully`,
+        duration: 2000,
+      });
+    } catch (err) {
+      toast({
+        title: "Failed to load file",
+        description: "Please try again with a valid markdown file",
+        variant: "destructive",
+      });
+    } finally {
+      // Reset file input
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    }
+  };
   
   return (
     <div className="flex flex-col h-full">
-      <Toolbar onFormat={handleFormat} onCopy={handleCopyToClipboard} />
+      <div className="flex justify-between items-center">
+        <Toolbar onFormat={handleFormat} onCopy={handleCopyToClipboard} />
+        <div className="flex items-center gap-2 p-1">
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={handleSaveFile}
+            className="flex items-center gap-1"
+          >
+            <Save className="h-4 w-4" />
+            <span>Save</span>
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={handleOpenFileClick}
+            className="flex items-center gap-1"
+          >
+            <FolderOpen className="h-4 w-4" />
+            <span>Open</span>
+          </Button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".md,.markdown,.txt"
+            style={{ display: 'none' }}
+            onChange={handleFileChange}
+          />
+        </div>
+      </div>
+
       <ResizablePanelGroup
         direction="horizontal"
         className="flex-1 rounded-lg border"
@@ -130,22 +213,22 @@ const MarkdownEditor = () => {
               <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
                 components={{
-                  code({node, inline = false, className, children, ...props}) {
+                  code({node, className, children, ...props}) {
                     const match = /language-(\w+)/.exec(className || '');
-                    return !inline && match ? (
+                    return !className?.includes('language-') ? (
+                      <code className={className} {...props}>
+                        {children}
+                      </code>
+                    ) : (
                       <SyntaxHighlighter
                         style={vscDarkPlus}
-                        language={match[1]}
+                        language={match ? match[1] : ''}
                         PreTag="div"
                         {...props}
                       >
                         {String(children).replace(/\n$/, '')}
                       </SyntaxHighlighter>
-                    ) : (
-                      <code className={className} {...props}>
-                        {children}
-                      </code>
-                    )
+                    );
                   }
                 }}
               >
