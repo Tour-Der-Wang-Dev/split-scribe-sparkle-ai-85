@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -24,6 +25,14 @@ export default {
 				ring: 'hsl(var(--ring))',
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
+				editor: {
+					bg: '#1e1e2e',
+					text: '#f8f8f2',
+					comment: '#6272a4',
+					string: '#f1fa8c',
+					keyword: '#ff79c6',
+					function: '#8be9fd',
+				},
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
 					foreground: 'hsl(var(--primary-foreground))'
@@ -61,7 +70,13 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				md: {
+					primary: '#9b87f5',
+					secondary: '#7E69AB',
+					dark: '#6E59A5',
+					light: '#E5DEFF',
+				},
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -89,7 +104,12 @@ export default {
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out'
-			}
+			},
+			fontFamily: {
+				mono: ['JetBrains Mono', 'monospace'],
+				sans: ['Inter', 'sans-serif'],
+				serif: ['Merriweather', 'serif'],
+			},
 		}
 	},
 	plugins: [require("tailwindcss-animate")],
