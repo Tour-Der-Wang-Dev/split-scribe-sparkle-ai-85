@@ -7,6 +7,8 @@ import { Card } from "@/components/ui/card";
 import { toast } from "sonner";
 import { GroqService } from "@/services/GroqService";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ResponseHistoryService } from '@/services/ResponseHistoryService';
+import { Bookmark, BookmarkCheck } from 'lucide-react';
 
 interface GroqPromptProps {
   initialPrompt?: string;
@@ -27,6 +29,7 @@ export function GroqPrompt({ initialPrompt = '', defaultApiKey = '' }: GroqPromp
   const [result, setResult] = useState('');
   const [loading, setLoading] = useState(false);
   const [selectedModel, setSelectedModel] = useState(GROQ_MODELS[0].id);
+  const [isSaved, setIsSaved] = useState(false);
   
   // Set the initial prompt and API key when provided
   useEffect(() => {
@@ -53,6 +56,7 @@ export function GroqPrompt({ initialPrompt = '', defaultApiKey = '' }: GroqPromp
     
     setLoading(true);
     setResult('');
+    setIsSaved(false);
     
     try {
       const response = await GroqService.generateContent(prompt, apiKey, selectedModel);
@@ -63,6 +67,17 @@ export function GroqPrompt({ initialPrompt = '', defaultApiKey = '' }: GroqPromp
       toast.error(error instanceof Error ? error.message : "Failed to generate content");
     } finally {
       setLoading(false);
+    }
+  };
+  
+  const handleSave = () => {
+    if (result && prompt) {
+      ResponseHistoryService.saveResponse(prompt, result, selectedModel);
+      setIsSaved(true);
+      toast.success("Response saved successfully!");
+      
+      // Trigger storage event to update other components
+      window.dispatchEvent(new Event('storage'));
     }
   };
   
@@ -132,7 +147,27 @@ export function GroqPrompt({ initialPrompt = '', defaultApiKey = '' }: GroqPromp
       
       {result && (
         <Card className="p-4">
-          <h3 className="text-lg font-medium mb-2">Result</h3>
+          <div className="flex justify-between items-start mb-2">
+            <h3 className="text-lg font-medium">Result</h3>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleSave}
+              disabled={isSaved}
+            >
+              {isSaved ? (
+                <>
+                  <BookmarkCheck className="h-4 w-4 mr-1" />
+                  Saved
+                </>
+              ) : (
+                <>
+                  <Bookmark className="h-4 w-4 mr-1" />
+                  Save
+                </>
+              )}
+            </Button>
+          </div>
           <div className="bg-muted p-4 rounded-md whitespace-pre-wrap">
             {result}
           </div>
