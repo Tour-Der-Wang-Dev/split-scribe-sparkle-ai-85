@@ -5,6 +5,9 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Sparkles } from 'lucide-react';
 
+// Get the API key from environment variables
+const defaultApiKey = import.meta.env.VITE_GROQ_API_KEY || '';
+
 const GroqAPI = () => {
   return (
     <div className="container mx-auto py-8 px-4">
@@ -22,7 +25,7 @@ const GroqAPI = () => {
       </header>
       
       <div className="max-w-2xl mx-auto">
-        <GroqPrompt />
+        <GroqPrompt defaultApiKey={defaultApiKey} />
       </div>
       
       <footer className="mt-12 pt-6 border-t text-center text-sm text-muted-foreground">

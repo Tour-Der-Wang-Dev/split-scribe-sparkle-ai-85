@@ -9,20 +9,24 @@ import { GroqService } from "@/services/GroqService";
 
 interface GroqPromptProps {
   initialPrompt?: string;
+  defaultApiKey?: string;
 }
 
-export function GroqPrompt({ initialPrompt = '' }: GroqPromptProps) {
+export function GroqPrompt({ initialPrompt = '', defaultApiKey = '' }: GroqPromptProps) {
   const [prompt, setPrompt] = useState('');
   const [apiKey, setApiKey] = useState('');
   const [result, setResult] = useState('');
   const [loading, setLoading] = useState(false);
   
-  // Set the initial prompt when provided
+  // Set the initial prompt and API key when provided
   useEffect(() => {
     if (initialPrompt) {
       setPrompt(initialPrompt);
     }
-  }, [initialPrompt]);
+    if (defaultApiKey) {
+      setApiKey(defaultApiKey);
+    }
+  }, [initialPrompt, defaultApiKey]);
   
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
