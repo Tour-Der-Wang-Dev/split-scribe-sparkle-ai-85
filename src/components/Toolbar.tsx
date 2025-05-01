@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -14,7 +13,7 @@ import {
   Link, 
   Image, 
   ListOrdered, 
-  ListUnordered, 
+  List, // Changed from ListUnordered
   Copy 
 } from "lucide-react";
 
@@ -184,7 +183,7 @@ const Toolbar = ({ onFormat, onCopy }: ToolbarProps) => {
                 onClick={() => onFormat('list')}
                 className="h-8 w-8"
               >
-                <ListUnordered className="h-4 w-4" />
+                <List className="h-4 w-4" />
               </Button>
             </TooltipTrigger>
             <TooltipContent>Bullet List</TooltipContent>

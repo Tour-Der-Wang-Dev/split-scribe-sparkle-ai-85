@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { ResizablePanelGroup, ResizablePanel } from "@/components/ui/resizable";
 import ReactMarkdown from 'react-markdown';
@@ -131,7 +130,7 @@ const MarkdownEditor = () => {
               <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
                 components={{
-                  code({node, inline, className, children, ...props}) {
+                  code({node, inline = false, className, children, ...props}) {
                     const match = /language-(\w+)/.exec(className || '');
                     return !inline && match ? (
                       <SyntaxHighlighter
