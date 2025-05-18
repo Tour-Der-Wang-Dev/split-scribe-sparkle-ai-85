@@ -1,4 +1,3 @@
-
 /**
  * Service for managing prompt engineering templates and utilities
  */
@@ -9,14 +8,17 @@ export interface PromptTemplate {
   description: string;
   template: string;
   category: string;
+  isFavorite?: boolean;
 }
 
 export class PromptEngineeringService {
+  private static readonly STORAGE_KEY = 'prompt_favorites';
+  
   /**
    * Get all available prompt templates
    */
   static getPromptTemplates(): PromptTemplate[] {
-    return [
+    const templates = [
       {
         id: "code-react",
         name: "React Component Generator",
@@ -379,6 +381,13 @@ export class PromptEngineeringService {
         category: "design"
       }
     ];
+    
+    // Add favorite status to templates
+    const favorites = this.getFavoriteTemplates();
+    return templates.map(template => ({
+      ...template,
+      isFavorite: favorites.includes(template.id)
+    }));
   }
 
   /**
@@ -387,7 +396,15 @@ export class PromptEngineeringService {
    * @returns The prompt template or undefined if not found
    */
   static getPromptTemplate(id: string): PromptTemplate | undefined {
-    return this.getPromptTemplates().find(template => template.id === id);
+    const template = this.getPromptTemplates().find(template => template.id === id);
+    if (template) {
+      const favorites = this.getFavoriteTemplates();
+      return {
+        ...template,
+        isFavorite: favorites.includes(template.id)
+      };
+    }
+    return undefined;
   }
 
   /**
@@ -396,7 +413,13 @@ export class PromptEngineeringService {
    * @returns Array of prompt templates in the category
    */
   static getPromptTemplatesByCategory(category: string): PromptTemplate[] {
-    return this.getPromptTemplates().filter(template => template.category === category);
+    const templates = this.getPromptTemplates().filter(template => template.category === category);
+    const favorites = this.getFavoriteTemplates();
+    
+    return templates.map(template => ({
+      ...template,
+      isFavorite: favorites.includes(template.id)
+    }));
   }
 
   /**
@@ -429,5 +452,70 @@ export class PromptEngineeringService {
     });
     
     return filledPrompt;
+  }
+  
+  /**
+   * Get favorite template IDs from localStorage
+   */
+  static getFavoriteTemplates(): string[] {
+    try {
+      const favoritesJSON = localStorage.getItem(this.STORAGE_KEY);
+      return favoritesJSON ? JSON.parse(favoritesJSON) : [];
+    } catch (error) {
+      console.error('Error loading favorite templates:', error);
+      return [];
+    }
+  }
+  
+  /**
+   * Add a template to favorites
+   */
+  static addToFavorites(templateId: string): void {
+    try {
+      const favorites = this.getFavoriteTemplates();
+      if (!favorites.includes(templateId)) {
+        favorites.push(templateId);
+        localStorage.setItem(this.STORAGE_KEY, JSON.stringify(favorites));
+      }
+    } catch (error) {
+      console.error('Error adding template to favorites:', error);
+    }
+  }
+  
+  /**
+   * Remove a template from favorites
+   */
+  static removeFromFavorites(templateId: string): void {
+    try {
+      let favorites = this.getFavoriteTemplates();
+      favorites = favorites.filter(id => id !== templateId);
+      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(favorites));
+    } catch (error) {
+      console.error('Error removing template from favorites:', error);
+    }
+  }
+  
+  /**
+   * Toggle favorite status of a template
+   */
+  static toggleFavorite(templateId: string): boolean {
+    const favorites = this.getFavoriteTemplates();
+    const isFavorite = favorites.includes(templateId);
+    
+    if (isFavorite) {
+      this.removeFromFavorites(templateId);
+      return false;
+    } else {
+      this.addToFavorites(templateId);
+      return true;
+    }
+  }
+  
+  /**
+   * Get all favorite templates
+   */
+  static getAllFavoriteTemplates(): PromptTemplate[] {
+    const favoriteIds = this.getFavoriteTemplates();
+    return this.getPromptTemplates().filter(template => favoriteIds.includes(template.id));
   }
 }

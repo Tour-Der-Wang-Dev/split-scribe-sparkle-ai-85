@@ -7,6 +7,7 @@ interface MobileOptimizedContainerProps extends React.HTMLAttributes<HTMLDivElem
   spacing?: 'none' | 'sm' | 'md' | 'lg';
   fullHeight?: boolean;
   centerContent?: boolean;
+  maxWidth?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
 }
 
 export const MobileOptimizedContainer = ({
@@ -15,6 +16,7 @@ export const MobileOptimizedContainer = ({
   spacing = 'md',
   fullHeight = false,
   centerContent = false,
+  maxWidth = 'none',
   ...props
 }: MobileOptimizedContainerProps) => {
   const isMobile = useIsMobile();
@@ -29,6 +31,11 @@ export const MobileOptimizedContainer = ({
         'p-3 sm:p-4',
         fullHeight && 'min-h-[calc(100vh-4rem)]',
         centerContent && 'flex flex-col items-center justify-center',
+        maxWidth === 'sm' && 'max-w-screen-sm mx-auto',
+        maxWidth === 'md' && 'max-w-screen-md mx-auto',
+        maxWidth === 'lg' && 'max-w-screen-lg mx-auto',
+        maxWidth === 'xl' && 'max-w-screen-xl mx-auto',
+        maxWidth === 'full' && 'max-w-full',
         isMobile ? 'touch-manipulation' : '',
         className
       )}
