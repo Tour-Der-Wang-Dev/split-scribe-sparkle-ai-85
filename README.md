@@ -1,73 +1,107 @@
-# Welcome to your Lovable project
 
-## Project info
+# AI Prompt Engineering & Groq Integration Tool
 
-**URL**: https://lovable.dev/projects/e1e525ee-4990-4bba-8038-83573884bd09
+A powerful web application for prompt engineering, AI response management, and integration with the Groq API. This tool helps users create, manage, and optimize AI prompts with a focus on mobile responsiveness and usability.
 
-## How can I edit this code?
+## Demo
 
-There are several ways of editing your application.
+Visit [https://lovable.dev/projects/e1e525ee-4990-4bba-8038-83573884bd09](https://lovable.dev/projects/e1e525ee-4990-4bba-8038-83573884bd09) to see the application in action.
 
-**Use Lovable**
+## Features
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/e1e525ee-4990-4bba-8038-83573884bd09) and start prompting.
+- **Prompt Engineering Tools**: Create, edit, and save prompt templates
+- **Variable Support**: Define and use variables within prompt templates
+- **Groq API Integration**: Send prompts to Groq's AI models and receive responses
+- **Response Management**: Save and manage AI responses for future reference
+- **Mobile Optimized**: Responsive design for both desktop and mobile users
+- **Template Favoriting**: Mark frequently used templates as favorites
 
-Changes made via Lovable will be committed automatically to this repo.
+## Tech Stack
 
-**Use your preferred IDE**
+- **Frontend**: React, TypeScript, Vite
+- **Styling**: Tailwind CSS, shadcn/ui components
+- **Routing**: React Router
+- **State Management**: React Query
+- **API Integration**: Groq API
+- **Database**: Supabase
+- **Icons**: Lucide React
+- **Date Handling**: date-fns
+- **Forms**: React Hook Form with Zod validation
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## Getting Started
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### Prerequisites
 
-Follow these steps:
+- Node.js (v16+) and npm installed
+- Groq API key for AI integration
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+### Installation
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+1. Clone the repository:
+   ```sh
+   git clone <repository-url>
+   cd ai-prompt-engineering-tool
+   ```
 
-# Step 3: Install the necessary dependencies.
-npm i
+2. Install dependencies:
+   ```sh
+   npm install
+   ```
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+3. Set up environment variables:
+   - Create a `.env` file in the root directory
+   - Add your Groq API key:
+     ```
+     GROQ_API_KEY=your_api_key_here
+     VITE_GROQ_API_KEY=your_api_key_here
+     ```
 
-**Edit a file directly in GitHub**
+4. Start the development server:
+   ```sh
+   npm run dev
+   ```
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+5. Open your browser and navigate to `http://localhost:8080`
 
-**Use GitHub Codespaces**
+## Project Structure
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+The project follows a modular structure:
+- `/components`: UI components
+- `/hooks`: Custom React hooks
+- `/integrations`: External service integrations
+- `/lib`: Utility functions
+- `/pages`: Route-based page components
+- `/services`: Business logic and data services
 
-## What technologies are used for this project?
+For a detailed breakdown of all files, please see [filesExplainer.md](./filesExplainer.md).
 
-This project is built with:
+## Deployment
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+This project is configured for deployment with Lovable:
 
-## How can I deploy this project?
+1. Navigate to the [Lovable Project](https://lovable.dev/projects/e1e525ee-4990-4bba-8038-83573884bd09)
+2. Click on Share -> Publish to deploy the application
+3. To connect a custom domain, go to Project > Settings > Domains
 
-Simply open [Lovable](https://lovable.dev/projects/e1e525ee-4990-4bba-8038-83573884bd09) and click on Share -> Publish.
+## Contributing
 
-## Can I connect a custom domain to my Lovable project?
+Contributions are welcome! Please follow these steps:
 
-Yes, you can!
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/your-feature-name`
+3. Make your changes
+4. Commit with descriptive messages: `git commit -m 'Add some feature'`
+5. Push to your branch: `git push origin feature/your-feature-name`
+6. Open a pull request
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+### Coding Standards
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+- Follow TypeScript best practices
+- Use functional components with hooks
+- Add appropriate comments and documentation
+- Use ESLint and follow project formatting rules
+- Write tests for new features
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
