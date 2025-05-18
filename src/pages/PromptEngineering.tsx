@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Card } from '@/components/ui/card';
+import { toast } from 'sonner';
 
 const PromptEngineering = () => {
   const [selectedTemplate, setSelectedTemplate] = useState<PromptTemplate | null>(null);
@@ -25,6 +26,7 @@ const PromptEngineering = () => {
     if (isMobile) {
       setMobilePage('configure');
     }
+    toast.success(`Selected template: ${template.name}`);
   };
   
   const handleVariablesSubmit = (variables: Record<string, string>) => {
@@ -36,6 +38,7 @@ const PromptEngineering = () => {
         if (isMobile) {
           setMobilePage('editor');
         }
+        toast.success("Template variables applied successfully");
       }
     }
   };
@@ -137,6 +140,7 @@ const PromptEngineering = () => {
       spacing={isMobile ? "sm" : "md"} 
       maxWidth="xl"
       mobileScroll={true}
+      bottomPadding={isMobile && mobilePage !== 'select'}
     >
       <header className="mb-6">
         <div className="flex justify-between items-center mb-4">
