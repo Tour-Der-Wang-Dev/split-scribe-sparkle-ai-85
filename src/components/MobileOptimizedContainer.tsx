@@ -8,6 +8,7 @@ interface MobileOptimizedContainerProps extends React.HTMLAttributes<HTMLDivElem
   fullHeight?: boolean;
   centerContent?: boolean;
   maxWidth?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
+  mobileScroll?: boolean;
 }
 
 export const MobileOptimizedContainer = ({
@@ -17,6 +18,7 @@ export const MobileOptimizedContainer = ({
   fullHeight = false,
   centerContent = false,
   maxWidth = 'none',
+  mobileScroll = true,
   ...props
 }: MobileOptimizedContainerProps) => {
   const isMobile = useIsMobile();
@@ -36,9 +38,14 @@ export const MobileOptimizedContainer = ({
         maxWidth === 'lg' && 'max-w-screen-lg mx-auto',
         maxWidth === 'xl' && 'max-w-screen-xl mx-auto',
         maxWidth === 'full' && 'max-w-full',
-        isMobile ? 'touch-manipulation' : '',
+        isMobile && 'touch-manipulation',
+        isMobile && mobileScroll && 'overflow-auto',
         className
       )}
+      style={isMobile ? {
+        WebkitOverflowScrolling: 'touch',
+        msOverflowStyle: '-ms-autohiding-scrollbar'
+      } : {}}
       {...props}
     >
       {children}
