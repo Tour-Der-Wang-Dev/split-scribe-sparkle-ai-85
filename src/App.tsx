@@ -1,4 +1,3 @@
-
 import { Suspense, lazy } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -13,6 +12,7 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 const GroqAPI = lazy(() => import("./pages/GroqAPI"));
 const PromptEngineering = lazy(() => import("./pages/PromptEngineering"));
 const AITools = lazy(() => import("./pages/AITools"));
+const Plans = lazy(() => import("./pages/Plans"));
 
 // Loading component for lazy-loaded routes
 const PageLoader = () => (
@@ -52,6 +52,7 @@ const App = () => (
             <Route path="/groq-api" element={<GroqAPI />} />
             <Route path="/prompt-engineering" element={<PromptEngineering />} />
             <Route path="/ai-tools" element={<AITools />} />
+            <Route path="/plans" element={<Plans />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

@@ -2,7 +2,7 @@
 import MarkdownEditor from '@/components/MarkdownEditor';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, Settings } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 const Index = () => {
@@ -19,6 +19,12 @@ const Index = () => {
           <div className="flex flex-wrap gap-2">
             <Button asChild variant="outline" size={isMobile ? "sm" : "default"} className="w-full sm:w-auto">
               <Link to="/groq-api">Try Groq API</Link>
+            </Button>
+            <Button asChild variant="outline" size={isMobile ? "sm" : "default"} className="w-full sm:w-auto">
+              <Link to="/plans">
+                <Settings className="mr-2 h-4 w-4" />
+                Plans
+              </Link>
             </Button>
             <Button asChild size={isMobile ? "sm" : "default"} className="w-full sm:w-auto">
               <Link to="/ai-tools">
