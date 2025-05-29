@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { PlanFormProps } from '@/types/plan';
+import { PlanFormProps, Plan } from '@/types/plan';
 
 const planFormSchema = z.object({
   name: z.string().min(1, 'Plan name is required'),
@@ -21,14 +21,20 @@ const PlanForm: React.FC<PlanFormProps> = ({ plan, onSubmit, onCancel }) => {
   const form = useForm<PlanFormData>({
     resolver: zodResolver(planFormSchema),
     defaultValues: {
-      name: plan?.name || '',
-      description: plan?.description || '',
-      price: plan?.price || 0,
+      name: plan?.name ?? '',
+      description: plan?.description ?? '',
+      price: plan?.price ?? 0,
     },
   });
 
   const handleSubmit = (data: PlanFormData) => {
-    onSubmit(data);
+    // Ensure all required fields are present before submitting
+    const planData: Omit<Plan, 'id'> = {
+      name: data.name,
+      description: data.description,
+      price: data.price,
+    };
+    onSubmit(planData);
   };
 
   return (
