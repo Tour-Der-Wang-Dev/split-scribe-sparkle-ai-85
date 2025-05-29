@@ -13,17 +13,26 @@ import {
   VideoIcon,
   FileText,
   Code,
-  Search
+  Search,
+  Zap
 } from 'lucide-react';
 
 const AITools = () => {
   const tools = [
     {
-      id: 'text-generation',
-      title: 'Text Generation',
-      description: 'Generate creative and informative text content using AI models',
-      icon: <MessageSquare className="h-5 w-5" />,
+      id: 'text-generation-groq',
+      title: 'Groq API',
+      description: 'Ultra-fast text generation using Groq\'s optimized AI models',
+      icon: <Zap className="h-5 w-5" />,
       href: '/groq-api',
+      available: true
+    },
+    {
+      id: 'text-generation-openrouter',
+      title: 'OpenRouter API',
+      description: 'Access GPT-4, Claude, Llama and other cutting-edge AI models',
+      icon: <MessageSquare className="h-5 w-5" />,
+      href: '/openrouter-api',
       available: true
     },
     {

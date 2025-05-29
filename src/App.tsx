@@ -1,3 +1,4 @@
+
 import { Suspense, lazy } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -10,6 +11,7 @@ import Index from "./pages/Index";
 // Lazy load other pages to improve initial load time
 const NotFound = lazy(() => import("./pages/NotFound"));
 const GroqAPI = lazy(() => import("./pages/GroqAPI"));
+const OpenRouterAPI = lazy(() => import("./pages/OpenRouterAPI"));
 const PromptEngineering = lazy(() => import("./pages/PromptEngineering"));
 const AITools = lazy(() => import("./pages/AITools"));
 const Plans = lazy(() => import("./pages/Plans"));
@@ -50,6 +52,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/groq-api" element={<GroqAPI />} />
+            <Route path="/openrouter-api" element={<OpenRouterAPI />} />
             <Route path="/prompt-engineering" element={<PromptEngineering />} />
             <Route path="/ai-tools" element={<AITools />} />
             <Route path="/plans" element={<Plans />} />
